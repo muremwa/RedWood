@@ -1,0 +1,103 @@
+from django.db import models
+
+
+def remove_colon(name):
+    return '-'.join(' '.join(str(name).split(':')).split(' '))
+
+
+# video
+class Video(models.Model):
+    video_qualities = (
+        ('144', '144p'),
+        ('240', '240p'),
+        ('360', '360p'),
+        ('720', '720p'),
+        ('1080', '1080p'),
+    )
+
+    file_quality = models.CharField(max_length=4, choices=video_qualities)
+    length = models.IntegerField(help_text='enter in seconds', blank=True, null=True)
+    intro_start = models.IntegerField(help_text='enter in seconds', blank=True, null=True)
+    intro_end = models.IntegerField(help_text='Enter in seconds', blank=True, null=True)
+    credits_start = models.IntegerField(help_text='Enter in seconds', blank=True, null=True)
+    video_art = models.ImageField(upload_to='watch/art', blank=True, null=True)
+    objects = models.Manager()
+
+    def __str__(self):
+        return 'video'
+
+
+def upload_movie_to(instance, filename):
+    return 'watch/movies/{}/{}'.format(remove_colon(instance), remove_colon(filename))
+
+
+# movie
+class Movie(Video):
+    title = models.CharField(max_length=100)
+    director = models.CharField(max_length=400, blank=True, null=True)
+    writers = models.CharField(max_length=400, blank=True, null=True)
+    cast = models.CharField(max_length=1000, blank=True, null=True)
+    synopsis = models.TextField()
+    rating = models.IntegerField(blank=True, null=True)
+    voters_of_rating = models.IntegerField(blank=True, null=True)
+    date_of_release = models.DateField()
+    genre = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    file = models.FileField(upload_to=upload_movie_to, blank=True, null=True)
+
+    def __str__(self):
+        return '{}(movie)'.format(self.title)
+
+
+# series
+class Series(models.Model):
+    title = models.CharField(max_length=100)
+    cast = models.CharField(max_length=1000, blank=True, null=True)
+    synopsis = models.TextField()
+    rating = models.IntegerField(blank=True, null=True)
+    voters_of_rating = models.IntegerField(blank=True, null=True)
+    date_of_release = models.DateField(blank=True, null=True)
+    genre = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    running_time = models.IntegerField()
+    number_of_seasons = models.IntegerField()
+    art = models.ImageField(upload_to='watch/art/', blank=True, null=True)
+    objects = models.Manager()
+
+    class Meta:
+        verbose_name_plural = 'Series'
+
+    def __str__(self):
+        return '{}(series)'.format(self.title)
+
+
+# season of a Tv series
+class Season(models.Model):
+    series = models.ForeignKey(Series, on_delete=models.CASCADE)
+    number_of_episodes = models.IntegerField()
+    name = models.CharField(max_length=100, blank=True, null=True)
+    season_number = models.IntegerField()
+    date = models.DateField()
+    objects = models.Manager()
+
+    def __str__(self):
+        return 'Season {} of {}'.format(self.season_number, self.series)
+
+
+def upload_episode_to(instance, filename):
+    return 'watch/series/{}/{}/{}'.format(
+        remove_colon(instance.season.series),
+        remove_colon(instance.season),
+        remove_colon(filename)
+    )
+
+
+# episode of a season
+class Episode(Video):
+    season = models.ForeignKey(Season, on_delete=models.CASCADE)
+    episode_number = models.IntegerField()
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to=upload_episode_to)
+
+    def __str__(self):
+        return 'Episode {} of {}'.format(self.episode_number, self.season)

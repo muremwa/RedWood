@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+    <h1>All videos</h1>
+    
+    <ul class="list-group">
+    {% for video in videos %}
+        <li class="list-group-item">{{ video.title }}</li>
+        <a href="{% url 'watch:now' video.video_number %}">watch</a>
+    {% endfor %}
+    </ul>
+{% endblock content %}
