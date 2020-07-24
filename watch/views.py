@@ -9,7 +9,8 @@ from .serializers import MovieSerializer, SeriesSerializer, SeasonSerializer, Ep
 
 # index
 class Index(APIView):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         if not request.user.is_authenticated:
             return Response({'detail': 'You must login first'})
 
@@ -48,7 +49,8 @@ class AllTvSeries(ListAPIView):
 
 # each movies
 class EachMovie(APIView):
-    def get(self, request, movie_id):
+    @staticmethod
+    def get(request, movie_id):
         if not request.user.is_authenticated:
             return Response({'detail': 'You must login first'})
 
@@ -72,7 +74,8 @@ class EachSeries(APIView):
         data['seasons'] = self.all_seasons(series)
         return data
 
-    def all_seasons(self, series):
+    @staticmethod
+    def all_seasons(series):
         seasons = series.season_set.all()
         all_seasons = SeasonSerializer(seasons, many=True).data
 
