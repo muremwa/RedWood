@@ -8,14 +8,15 @@ def remove_colon(name):
 def upload_item_to(instance: 'Video', filename: str):
     simple_path = 'videos'
 
-    if instance.video_type == 'M':
-        simple_path = remove_colon(str(instance.movie))
-    elif instance.video_type == 'S':
+    if hasattr(instance, 'movie'):
+        simple_path = f'movies/{remove_colon(str(instance.movie))}'
+
+    elif hasattr(instance, 'episode'):
         _season: 'Season' = instance.episode.season
         _series: 'Series' = _season.series
-        simple_path = f'{_series}/{_season}'
+        simple_path = f'series/{_series}/{_season}'
 
-    return f'watch/movies/{simple_path}/{filename}'
+    return f'watch/{simple_path}/{filename}'
 
 
 # video
@@ -42,6 +43,16 @@ class Video(models.Model):
     file = models.FileField(upload_to=upload_item_to, blank=True, null=True)
     objects = models.Manager()
 
+    @property
+    def owner(self):
+        _owner = None
+        if hasattr(self, 'movie'):
+            _owner = self.movie
+        elif hasattr(self, 'episode'):
+            _owner = self.episode
+
+        return _owner
+
     def __str__(self):
         return 'video'
 
@@ -59,6 +70,7 @@ class Movie(models.Model):
     genre = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     file = models.OneToOneField(Video, on_delete=models.CASCADE, blank=True, null=True)
+    objects = models.Manager()
 
     def __str__(self):
         return '{}(movie)'.format(self.title)
@@ -105,6 +117,7 @@ class Episode(models.Model):
     episode_number = models.IntegerField()
     name = models.CharField(max_length=100)
     file = models.OneToOneField(Video, on_delete=models.CASCADE, blank=True, null=True)
+    objects = models.Manager()
 
     def __str__(self):
         return 'Episode {} of {}'.format(self.episode_number, self.season)

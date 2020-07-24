@@ -14,6 +14,9 @@ urlpatterns = [
     # accounts/
     path('accounts/', include('accounts.urls')),
 
+    # staff/
+    path('staff/', include('staff.urls')),
+
 ]
 
 if settings.DEBUG:

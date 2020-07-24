@@ -1,0 +1,4 @@
+{% for obj in movies %}
+<h1>{{obj.title}}</h1>
+<a href="{% url 'staff:movie-detail' obj.pk %}">detail</a>
+{% endfor %}
