@@ -9,20 +9,12 @@ class MovieModelAdmin(admin.ModelAdmin):
         (
             'Film details', {
                 'fields': [
-                    'title', 'director', 'writers', 'cast', 'synopsis', 'date_of_release', 'genre', 'country'
+                    'title', 'director', 'writers', 'cast', 'synopsis', 'date_of_release', 'genre', 'country',
                 ]
             }
         ),
-        (
-            'Film file details', {
-                'fields': [
-                    'file', 'file_quality', 'length', 'intro_start', 'intro_end', 'credits_start', 'video_art'
-                ]
-            }
-        )
     ]
-
-    list_display = ['title', 'genre', 'length']
+    list_display = ['title', 'genre']
 
 
 # inline for season
@@ -37,8 +29,8 @@ class SeriesModelAdmin(admin.ModelAdmin):
         (
             'Series Details', {
                 'fields': [
-                    'title','cast','synopsis','running_time','date_of_release','genre','country','number_of_seasons',
-                    'art'
+                    'title', 'cast', 'synopsis', 'running_time', 'date_of_release', 'genre', 'country',
+                    'number_of_seasons', 'art'
                 ]
             }
         ),
@@ -53,16 +45,9 @@ class EpisodeModelAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             'Episode Details', {
-                'fields': ['season','name','episode_number']
+                'fields': ['season', 'name', 'episode_number']
             }
         ),
-        (
-            'Episode file details', {
-                'fields': [
-                    'file', 'file_quality', 'length', 'intro_start', 'intro_end', 'credits_start'
-                ]
-            }
-        )
     ]
 
 

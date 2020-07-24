@@ -5,6 +5,19 @@ def remove_colon(name):
     return '-'.join(' '.join(str(name).split(':')).split(' '))
 
 
+def upload_item_to(instance: 'Video', filename: str):
+    simple_path = 'videos'
+
+    if instance.video_type == 'M':
+        simple_path = remove_colon(str(instance.movie))
+    elif instance.video_type == 'S':
+        _season: 'Season' = instance.episode.season
+        _series: 'Series' = _season.series
+        simple_path = f'{_series}/{_season}'
+
+    return f'watch/movies/{simple_path}/{filename}'
+
+
 # video
 class Video(models.Model):
     video_qualities = (
@@ -14,25 +27,27 @@ class Video(models.Model):
         ('720', '720p'),
         ('1080', '1080p'),
     )
+    video_types = (
+        ('M', 'Movie'),
+        ('S', 'Series'),
+    )
 
+    video_type = models.CharField(max_length=1, choices=video_types)
     file_quality = models.CharField(max_length=4, choices=video_qualities)
     length = models.IntegerField(help_text='enter in seconds', blank=True, null=True)
     intro_start = models.IntegerField(help_text='enter in seconds', blank=True, null=True)
     intro_end = models.IntegerField(help_text='Enter in seconds', blank=True, null=True)
     credits_start = models.IntegerField(help_text='Enter in seconds', blank=True, null=True)
     video_art = models.ImageField(upload_to='watch/art', blank=True, null=True)
+    file = models.FileField(upload_to=upload_item_to, blank=True, null=True)
     objects = models.Manager()
 
     def __str__(self):
         return 'video'
 
 
-def upload_movie_to(instance, filename):
-    return 'watch/movies/{}/{}'.format(remove_colon(instance), remove_colon(filename))
-
-
 # movie
-class Movie(Video):
+class Movie(models.Model):
     title = models.CharField(max_length=100)
     director = models.CharField(max_length=400, blank=True, null=True)
     writers = models.CharField(max_length=400, blank=True, null=True)
@@ -43,7 +58,7 @@ class Movie(Video):
     date_of_release = models.DateField()
     genre = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
-    file = models.FileField(upload_to=upload_movie_to, blank=True, null=True)
+    file = models.OneToOneField(Video, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return '{}(movie)'.format(self.title)
@@ -84,20 +99,12 @@ class Season(models.Model):
         return 'Season {} of {}'.format(self.season_number, self.series)
 
 
-def upload_episode_to(instance, filename):
-    return 'watch/series/{}/{}/{}'.format(
-        remove_colon(instance.season.series),
-        remove_colon(instance.season),
-        remove_colon(filename)
-    )
-
-
 # episode of a season
-class Episode(Video):
+class Episode(models.Model):
     season = models.ForeignKey(Season, on_delete=models.CASCADE)
     episode_number = models.IntegerField()
     name = models.CharField(max_length=100)
-    file = models.FileField(upload_to=upload_episode_to)
+    file = models.OneToOneField(Video, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return 'Episode {} of {}'.format(self.episode_number, self.season)

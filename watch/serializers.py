@@ -1,7 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
 from .models import Movie, Series, Season, Episode
-from django.contrib.auth.models import User
 
 
 # serializer for movies
@@ -35,8 +34,3 @@ class EpisodeSerializer(ModelSerializer):
     class Meta:
         model = Episode
         fields = '__all__'
-
-
-# user serializer
-class UserSerializer(ModelSerializer):
-    pass
