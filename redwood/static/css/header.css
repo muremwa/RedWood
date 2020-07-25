@@ -1,0 +1,48 @@
+html {
+    font-size: 11.5px;
+}
+
+.mdl-layout__content {
+    /* background-color: rgb(10, 26, 26); */
+    background-color: rgb(245, 252, 252);
+}
+
+#overall {
+    margin-top: 2em;
+}
+
+.mdl-layout__title > img {
+    width: 10em;
+    height: 100%;
+    cursor: pointer;
+}
+
+
+#top-header {
+    background-color: rgb(83, 62, 62);
+}
+
+.mdl-layout__drawer {
+    background-color: rgb(238, 216, 216);
+}
+
+
+.mdl-mini-footer {
+    background: #533e3e;
+    margin-top: 4em;
+}
+
+#footer-logo {
+    width: 10em;
+    cursor: pointer;
+}
+
+.mdl-mini-footer__right button {
+    background: #533e3e;
+    margin-left: 2em;
+    cursor: pointer;
+}
+
+.content-divider {
+    border-top-color: antiquewhite;
+}

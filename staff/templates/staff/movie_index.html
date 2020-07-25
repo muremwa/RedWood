@@ -1,4 +1,16 @@
-{% for obj in movies %}
-<h1>{{obj.title}}</h1>
-<a href="{% url 'staff:movie-detail' obj.pk %}">detail</a>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block title %}Staff Movie detail{% endblock title %}
+
+{% block content %}
+
+
+    {% for obj in movies %}
+    <h1>{{obj.title}}</h1>
+    <a href="{% url 'staff:movie-detail' obj.pk %}">detail</a>
+    {% endfor %}
+
+{% endblock content %}
+
+
+

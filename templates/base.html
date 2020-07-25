@@ -6,13 +6,80 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock title %} | RedWood</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="http://127.0.0.1/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/material.min.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/header.css' %}" />
     {% block style %}{% endblock style %}
-</head>
+    </head>
 <body>
-    {% block content %}
-    
-    {% endblock content %}
+    <div class="mdl-layout mdl-js-layout">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout-icon">
+            </div>
+            <div class="mdl-layout__header-row" id="top-header">
+                <div class="mdl-layout__title"><img src="{% static 'images/top-redwood.png' %}" alt=""></div>
+                <div class="mdl-layout-spacer"></div>
+                <nav class="mdl-navigation">
+                    <a href="" class="mdl-navigation__link">watch</a>
+                    <a href="" class="mdl-navigation__link">movies</a>
+                    <a href="" class="mdl-navigation__link">series</a>
+                    <a href="" class="mdl-navigation__link">sports</a>
+                    <a href="" class="mdl-navigation__link">discover</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout__title">more actions</span>
+            <nav class="mdl-navigation">
+                {% if user.is_authenticated %}
+                <a href="" class="mdl-navigation__link"><img src="{% static 'svg/account.svg' %}" alt="">      {{ user.username }}</a>
+                <a href="" class="mdl-navigation__link"><img src="{% static 'svg/group.svg' %}" alt="">        profiles</a>
+                <a href="" class="mdl-navigation__link"><img src="{% static 'svg/settings.svg' %}" alt="">     settings</a>
+                    {% if user.is_staff %}
+                        <a href="" class="mdl-navigation__link"><img src="{% static 'svg/fix.svg' %}" alt="">     staff page</a>
+                    {% endif %}
+                {% endif %}
+                <a href="" class="mdl-navigation__link"><img src="{% static 'svg/security.svg' %}" alt="">     privacy</a>
+            </nav>
+        </div>
+
+        <div class="mdl-layout__content">
+        {% block content %}
+        
+        {% endblock content %}
+        </div>
+
+        <footer class="mdl-mini-footer mdl-shadow--3dp">
+            <div class="mdl-mini-footer__left">
+                <div class="mdl-logo">
+                    <img id="footer-logo" src="{% static 'images/redwood.png' %}" alt="">
+                </div>
+                <ul class="mdl-mini-footer__link-list">
+                    <li><a href="">watch</a></li>
+                    <li><a href="">movies</a></li>
+                    <li><a href="">sports</a></li>
+                    <li><a href="">discover</a></li>
+                </ul>
+            </div>
+            <div class="mdl-mini-footer__right">
+                <button class="mdl-mini-footer__social-btn">
+                    <img src="{% static 'svg/facebook.svg' %}" alt="">
+                </button>
+                <button class="mdl-mini-footer__social-btn">
+                    <img src="{% static 'svg/twitter.svg' %}" alt="">
+                </button>
+                <button class="mdl-mini-footer__social-btn">
+                    <img src="{% static 'svg/instagram.svg' %}" alt="">
+                </button>
+                <button class="mdl-mini-footer__social-btn">
+                    <img src="{% static 'svg/youtube.svg' %}" alt="">
+                </button>
+                <button class="mdl-mini-footer__social-btn">
+                    <img src="{% static 'svg/pinterest.svg' %}" alt="">
+                </button>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/material.min.js' %}"></script>
+
 </body>
 </html>
