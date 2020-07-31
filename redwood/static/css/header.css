@@ -2,11 +2,6 @@ html {
     font-size: 11.5px;
 }
 
-.mdl-layout__content {
-    /* background-color: rgb(10, 26, 26); */
-    background-color: rgb(245, 252, 252);
-}
-
 #overall {
     margin-top: 2em;
 }
@@ -19,11 +14,16 @@ html {
 
 
 #top-header {
-    background-color: rgb(83, 62, 62);
+    background-color: #533e3e;
 }
 
 .mdl-layout__drawer {
     background-color: rgb(238, 216, 216);
+}
+
+.mdl-layout__content {
+    min-height: 65vh;
+    width: 100%;
 }
 
 
