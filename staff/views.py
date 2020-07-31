@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import reverse, redirect
+from django.contrib.messages import add_message, constants as message_constants
 from django.views import View, generic
 
 
@@ -35,19 +35,26 @@ class MovieDetail(PermissionRequiredMixin, View):
 
     def post(self, request, **kwargs):
         movie = get_object_or_404(Movie, pk=kwargs.get('pk'))
-        movie_form = StaffMovieForm(request.POST)
+        movie_form = StaffMovieForm(request.POST, instance=movie)
 
         if movie_form.is_valid():
             movie_form.save()
 
-        else:
+            add_message(request, message_constants.SUCCESS, 'Successfully changed %s' %movie.title)
+
             return render(request, self.template_name, {
                 'movie': movie,
                 'movie_form': movie_form,
                 'video_form': StaffVideoForm(instance=movie.file, for_movie=True)
             })
 
-        return redirect(reverse('staff:movie-detail'))
+        else:
+            return render(request, self.template_name, {
+                'not_valid': True,
+                'movie': movie,
+                'movie_form': movie_form,
+                'video_form': StaffVideoForm(instance=movie.file, for_movie=True)
+            })
 
 
 @csrf_exempt

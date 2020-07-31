@@ -9,7 +9,7 @@ class MovieModelAdmin(admin.ModelAdmin):
         (
             'Film details', {
                 'fields': [
-                    'title', 'director', 'writers', 'cast', 'synopsis', 'date_of_release', 'genre', 'country',
+                    'title', 'director', 'writers', 'cast', 'synopsis', 'date_of_release', 'genre', 'country', 'art'
                 ]
             }
         ),

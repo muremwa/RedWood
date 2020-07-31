@@ -59,16 +59,17 @@ class Video(models.Model):
 
 # movie
 class Movie(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, help_text='Enter the title of the movie')
     director = models.CharField(max_length=400, blank=True, null=True)
     writers = models.CharField(max_length=400, blank=True, null=True)
     cast = models.CharField(max_length=1000, blank=True, null=True)
-    synopsis = models.TextField()
-    rating = models.IntegerField(blank=True, null=True)
+    synopsis = models.TextField(help_text='Enter a short description of the plot*')
+    rating = models.IntegerField(blank=True, null=True, help_text='enter a rating between 1 and 10')
     voters_of_rating = models.IntegerField(blank=True, null=True)
     date_of_release = models.DateField()
     genre = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    country = models.CharField(max_length=100, help_text='enter the country of origin')
+    art = models.ImageField(upload_to='watch/art/', blank=True, null=True, help_text='enter the movie poster')
     file = models.OneToOneField(Video, on_delete=models.CASCADE, blank=True, null=True)
     objects = models.Manager()
 
