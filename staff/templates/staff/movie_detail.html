@@ -156,6 +156,9 @@
                                 </div>
                             {% endif %}
                         {% endif %}
+                        {% if movie_form.art.value %}
+                            Current: <a href="{{ movie.art.url }}">{{ movie_form.art.value }}</a>
+                        {% endif %}
                         {{ movie_form.art }}
                     </div>
                 </div>
@@ -223,6 +226,10 @@
                     </div>
                     <div class="form-group">
                         {{ video_form.video_art.label }}
+                        {% if video_form.video_art.value %}
+                            <br />
+                            Current: <a href="{{ movie.file.video_art.url }}">{{ video_form.video_art.value }}</a>
+                        {% endif %}
                         {{ video_form.video_art }}
                     </div>
                 </div>
