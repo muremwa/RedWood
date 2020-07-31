@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
 
 from watch.models import Movie, Video
 
@@ -30,19 +31,17 @@ class StaffVideoForm(forms.ModelForm):
         model = Video
         fields = '__all__'
         widgets = {
-            'video_type': forms.HiddenInput()
+            'video_type': forms.HiddenInput(),
+            'file_quality': forms.Select(attrs={'class': 'form-control'}),
+            'length': forms.NumberInput(attrs={'class': 'form-control'}),
+            'intro_start': forms.NumberInput(attrs={'class': 'form-control'}),
+            'intro_end': forms.NumberInput(attrs={'class': 'form-control'}),
+            'credits_start': forms.NumberInput(attrs={'class': 'form-control'}),
+            'video_art': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
     class Media:
-        js = ['videoUpload.js']
-
-    def save(self, *args, **kwargs):
-        res = None
-        if hasattr(self, 'cleaned_data'):
-            video = Video.objects.create(**self.cleaned_data)
-            res = video.pk
-
-        return res
+        js = ['staff/js/videoUpload.js']
 
 
 class StaffMovieForm(forms.ModelForm):
@@ -50,3 +49,15 @@ class StaffMovieForm(forms.ModelForm):
     class Meta:
         model = Movie
         exclude = ('file',)
+        widgets = {
+            'title': forms.TextInput(attrs={"class": "form-control"}),
+            'director': forms.TextInput(attrs={"class": "form-control"}),
+            'writers': forms.TextInput(attrs={"class": "form-control"}),
+            'genre': forms.TextInput(attrs={"class": "form-control"}),
+            'cast': forms.Textarea(attrs={"class": "form-control"}),
+            'rating': forms.NumberInput(attrs={"class": "form-control", 'max': 10, 'min': 0}),
+            'date_of_release': AdminDateWidget(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={"class": "form-control"}),
+            'art': forms.FileInput(attrs={"class": "form-control"}),
+            'synopsis': forms.Textarea(attrs={"class": "form-control"}),
+        }
