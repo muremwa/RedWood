@@ -49,6 +49,7 @@
                 </div>
                 <div class="rowed-fields">
                     <div class="form-group">
+                        {{ movie_form.director.label }}
                         {% if movie_form.director.errors %}
                             {% for error in movie_form.director.errors %}
                                 <div class="alert alert-warning">
@@ -56,10 +57,10 @@
                                 </div>                            
                             {% endfor %}
                         {% endif %}
-                        {{ movie_form.director.label }}
                         {{ movie_form.director }}
                     </div>
                     <div class="form-group">
+                        {{ movie_form.writers.label }}
                         {% if movie_form.writers.errors %}
                             {% for error in movie_form.writers.errors %}
                                 <div class="alert alert-warning">
@@ -67,10 +68,10 @@
                                 </div>                            
                             {% endfor %}
                         {% endif %}
-                        {{ movie_form.writers.label }}
                         {{ movie_form.writers }}
                     </div>
                     <div class="form-group">
+                        {{ movie_form.genre.label }}
                         {% if movie_form.genre.errors %}
                             {% for error in movie_form.genre.errors %}
                                 <div class="alert alert-warning">
@@ -78,7 +79,6 @@
                                 </div>                            
                             {% endfor %}
                         {% endif %}
-                        {{ movie_form.genre.label }}
                         {{ movie_form.genre }}
                     </div>
                 </div>
@@ -87,6 +87,7 @@
                 
                 <div class="rowed-fields">
                     <div class="form-group">
+                        {{ movie_form.cast.label }}
                         {% if movie_form.cast.errors %}
                             {% for error in movie_form.cast.errors %}
                                 <div class="alert alert-warning">
@@ -94,10 +95,10 @@
                                 </div>                            
                             {% endfor %}
                         {% endif %}
-                        {{ movie_form.cast.label }}
                         {{ movie_form.cast }}
                     </div>
                     <div class="form-group">
+                        {{ movie_form.rating.label }}
                         {% if movie_form.rating.errors %}
                             {% for error in movie_form.rating.errors %}
                                 <div class="alert alert-warning">
@@ -105,10 +106,10 @@
                                 </div>                            
                             {% endfor %}
                         {% endif %}
-                        {{ movie_form.rating.label }}
                         {{ movie_form.rating }}
                     </div>
                     <div class="form-group">
+                        {{ movie_form.date_of_release.label }}
                         {% if movie_form.date_of_release.errors %}
                             {% for error in movie_form.date_of_release.errors %}
                                 <div class="alert alert-warning">
@@ -116,7 +117,6 @@
                                 </div>                            
                             {% endfor %}
                         {% endif %}
-                        {{ movie_form.date_of_release.label }}
                         {{ movie_form.date_of_release }}
                     </div>
                 </div>
@@ -125,6 +125,7 @@
                 
                 <div class="rowed-fields">
                     <div class="form-group">
+                        {{ movie_form.country.label }}
                         {% if movie_form.country.errors %}
                             {% for error in movie_form.country.errors %}
                                 <div class="alert alert-warning">
@@ -138,10 +139,10 @@
                                 </div>
                             {% endif %}
                         {% endif %}
-                        {{ movie_form.country.label }}
                         {{ movie_form.country }}
                     </div>
                     <div class="form-group">
+                        {{ movie_form.art.label }}
                         {% if movie_form.art.errors %}
                             {% for error in movie_form.art.errors %}
                                 <div class="alert alert-warning">
@@ -155,7 +156,6 @@
                                 </div>
                             {% endif %}
                         {% endif %}
-                        {{ movie_form.art.label }}
                         {{ movie_form.art }}
                     </div>
                 </div>
@@ -163,6 +163,7 @@
                 <hr />
                 
                 <div class="form-group">
+                    {{ movie_form.synopsis.label }}
                     {% if movie_form.synopsis.errors %}
                         {% for error in movie_form.synopsis.errors %}
                             <div class="alert alert-warning">
@@ -176,7 +177,6 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                    {{ movie_form.synopsis.label }}
                     {{ movie_form.synopsis }}
                 </div>
 
