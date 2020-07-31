@@ -1,0 +1,13 @@
+#movie-index-main {
+    width: 90vw;
+    padding-top: 2em;
+    margin-left: 5vw;
+}
+
+.card-item {
+    margin: 2em;
+}
+
+.movie {
+    background-color: #eeeeee;
+}

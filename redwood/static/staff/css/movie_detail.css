@@ -1,0 +1,44 @@
+#movie-main {
+    width: 100vw;
+    /* border: 1px solid violet; */
+}
+
+#movie-main > header {
+    margin-left: 4em;
+    margin-top: 1em;
+}
+
+#forms-div {
+    display: flex;
+    flex-direction: row;
+}
+
+#movie-form {
+    border: 1px solid #533e3e3d;
+    border-radius: 3px;
+    width: 58%;
+}
+
+
+#movie-form .form-group, #video-form .form-group {
+    margin: 2em;
+}
+
+.rowed-fields {
+    display: flex;
+    flex-direction: row;
+}
+
+#video-form {
+    border: 1px solid #533e3e3d;
+    border-radius: 3px;
+    width: 35%;
+}
+
+.div-space {
+    width: 2%;
+}
+
+#video-upload {
+    margin: 0 2em 0 2em;
+}

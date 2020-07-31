@@ -1,14 +1,33 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}Staff Movie detail{% endblock title %}
 
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="{% static 'staff/css/movie_index.css' %}">
+{% endblock style %}
+
 {% block content %}
 
+<div id='movie-index-main'>
 
-    {% for obj in movies %}
-    <h1>{{obj.title}}</h1>
-    <a href="{% url 'staff:movie-detail' obj.pk %}">detail</a>
-    {% endfor %}
+    <div id="index-movies" class="row">
+
+        {% for movie in movies %}
+        <div class="col-sm-3 card-item">
+            <a href="{% url 'staff:movie-detail' movie.pk %}" class="movie mdl-card mdl-shadow--4dp">
+                {% comment %} <img src="{{ movie.art.url }}" alt="" class="card-img-top"> {% endcomment %}
+                <div class="mdl-card__title">
+                    <span class="mdl-card__title-text">{{ movie.title }}</span>
+                </div>
+                <p class="mdl-card__supporting-text">{{ movie.genre }}<br /> {{ movie.date_of_release }}<br />Rated {{ movie.rating }}</p>
+            </a>
+        </div>         
+        {% endfor %}            
+        
+    </div>
+
+</div>
 
 {% endblock content %}
 
