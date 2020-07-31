@@ -238,12 +238,28 @@
     
                 <div id='video-upload'>
                     {% if video_form.file.value %}
-                        <a href="{{ movie.file.file.url}}">open current file</a>
+                        <a href="{{ movie.file.file.url}}" target="_blank" rel="norel">open current file</a>
                     {% endif %}
+
+                    <div class="form-group">                
+                        <label for="movie-video-file">Select file for {{ movie.title }}</label>      
+                        <input type="file" name="video" id="movie-video-file" class="form-control" accept="video/*">
     
-                    <div id='upload-field'>
-    
-                    </div>
+                        <div id='upload-field'>
+                            <div id='progress-bar'>
+                                <div id='progress-level'></div>
+                            </div>
+                            <div class="div-space"></div>
+                            <div id='progress-per'>
+                                <span>0%</span>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+
+                <hr />
+                <div class="form-group" style="text-align: right;">
+                    <input class="btn btn-outline-info" type="submit" value="upload file for {{ movie.title }}">
                 </div>
             </form>
         </div>
