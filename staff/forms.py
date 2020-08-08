@@ -41,10 +41,11 @@ class StaffVideoForm(forms.ModelForm):
         }
 
     class Media:
-        js = ['staff/js/videoUpload.js']
+        js = ('js/AjaxWrapper.js', 'staff/js/videoUpload.js')
 
 
 class StaffMovieForm(forms.ModelForm):
+    video = forms.IntegerField(widget=forms.HiddenInput())
 
     class Meta:
         model = Movie

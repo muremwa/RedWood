@@ -2,13 +2,13 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.messages import add_message, constants as message_constants
 from django.views import View, generic
+from rest_framework.decorators import api_view
 
 
 from .forms import StaffMovieForm, StaffVideoForm
-from watch.models import Movie
+from watch.models import Movie, Episode
 
 
 class MovieIndex(PermissionRequiredMixin, generic.ListView):
@@ -57,20 +57,30 @@ class MovieDetail(PermissionRequiredMixin, View):
             })
 
 
-@csrf_exempt
+@api_view(['OPTIONS', 'POST'])
 @permission_required('watch.can_add_video')
 def upload_video(request):
-    if request.method == 'POST' and request.is_ajax():
-        form = StaffVideoForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        owner_pk = request.POST.get('owner', None)
+        owner = None
+        if owner_pk:
+            if request.POST.get('video_type') == 'M':
+                owner = get_object_or_404(Movie, pk=owner_pk)
+            elif request.POST.get('video_type') == 'S':
+                owner = get_object_or_404(Episode, pk=owner_pk)
 
-        if form.is_valid():
-            # video_pk = form.save()
-            video_pk = 230239
+        form = StaffVideoForm(request.POST, request.FILES, instance=owner.file)
+
+        if form.is_valid() and owner:
+            video = form.save()
+
             response = {
                 'success': True,
-                'video_id': video_pk,
-                's': str(request.user)
+                'video_id': video.pk,
+                'user': str(request.user),
+                'owner': owner.title,
             }
+
         else:
             response = {
                 'success': False,
@@ -79,5 +89,12 @@ def upload_video(request):
 
         return JsonResponse(response)
 
+    elif request.method == 'OPTIONS':
+        form = StaffVideoForm()
+
+        return JsonResponse({
+            'fields': [f for f in form.fields] + ['owner']
+        })
+
     else:
-        return HttpResponseBadRequest('Not allowed')
+        return HttpResponseBadRequest('Not allowed for %s' % str(request.user))
