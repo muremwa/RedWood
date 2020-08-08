@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 
 
 from .forms import StaffMovieForm, StaffVideoForm
-from watch.models import Movie, Episode
+from watch.models import Movie, Episode, Video
 
 
 class MovieIndex(PermissionRequiredMixin, generic.ListView):
@@ -38,7 +38,10 @@ class MovieDetail(PermissionRequiredMixin, View):
         movie_form = StaffMovieForm(request.POST, instance=movie)
 
         if movie_form.is_valid():
+            video_pk = request.POST.get('video')
+            video = get_object_or_404(Video, pk=video_pk)
             movie_form.save()
+            movie.file = video
 
             add_message(request, message_constants.SUCCESS, 'Successfully changed %s' %movie.title)
 
