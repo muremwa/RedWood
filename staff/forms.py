@@ -33,11 +33,12 @@ class StaffVideoForm(forms.ModelForm):
         widgets = {
             'video_type': forms.HiddenInput(),
             'file_quality': forms.Select(attrs={'class': 'form-control'}),
-            'length': forms.NumberInput(attrs={'class': 'form-control'}),
-            'intro_start': forms.NumberInput(attrs={'class': 'form-control'}),
-            'intro_end': forms.NumberInput(attrs={'class': 'form-control'}),
+            'length': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
+            'intro_start': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
+            'intro_end': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
             'credits_start': forms.NumberInput(attrs={'class': 'form-control'}),
             'video_art': forms.FileInput(attrs={'class': 'form-control'}),
+            'file': forms.FileInput(attrs={'class': 'form-control', 'accept': 'video/*'}),
         }
 
     class Media:
