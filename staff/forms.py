@@ -46,7 +46,7 @@ class StaffVideoForm(forms.ModelForm):
 
 
 class StaffMovieForm(forms.ModelForm):
-    video = forms.IntegerField(widget=forms.HiddenInput())
+    video = forms.IntegerField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Movie

@@ -36,12 +36,16 @@ class MovieDetail(PermissionRequiredMixin, View):
     def post(self, request, **kwargs):
         movie = get_object_or_404(Movie, pk=kwargs.get('pk'))
         movie_form = StaffMovieForm(request.POST, instance=movie)
+        print(list(request.POST.items()))
 
         if movie_form.is_valid():
             video_pk = request.POST.get('video')
-            video = get_object_or_404(Video, pk=video_pk)
+            if video_pk:
+                video = get_object_or_404(Video, pk=video_pk)
+                movie.file = video
+                movie.save()
+
             movie_form.save()
-            movie.file = video
 
             add_message(request, message_constants.SUCCESS, 'Successfully changed %s' % movie.title)
 
@@ -52,6 +56,7 @@ class MovieDetail(PermissionRequiredMixin, View):
             })
 
         else:
+            print(movie_form.non_field_errors())
             return render(request, self.template_name, {
                 'not_valid': True,
                 'movie': movie,

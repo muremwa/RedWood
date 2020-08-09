@@ -252,7 +252,11 @@
                 <hr />
     
                 <div id='video-upload'>
-                    <a href="{{ movie.file.file.url}}" {% if not video_form.file.value %}style='display: none'{% endif %} target="_blank" rel="norel" id='current-video'>open current file</a>
+                    {% if video_form.file.value %}
+                        <a href="{{ movie.file.file.url}}" target="_blank" rel="norel" id='current-video'>open current file</a>
+                    {% else %}
+                        <a href="" target="_blank" rel="norel" id='current-video' style='display: none;'>open current file</a>
+                    {% endif %}
 
                     <div class="form-group">                
                         <label for="movie-video-file">Select file for {{ movie.title }}</label>      
