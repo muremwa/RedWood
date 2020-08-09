@@ -70,3 +70,13 @@
     font-size: 2em;
     text-align: right;
 }
+
+#form-video-error {
+    display: none;
+    margin: 0 2em 2em 2em;
+}
+
+#video_id_available {
+    margin: 2em;
+    display: none;
+}

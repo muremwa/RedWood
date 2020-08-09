@@ -6,7 +6,6 @@
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'staff/css/movie_detail.css' %}">
 {{ movie_form.media }}
-{{ video_form.media }}
 {% endblock style %}
 
 {% block content %}
@@ -21,9 +20,11 @@
         <div id="movie-form">
             <h2 class="text-center">Movie details</h2>
             {% if not_valid %}<div class='alert alert-warning'>Rectify the errors below </div>{% endif %}
+            <div class='alert alert-success text-center' id='video_id_available'>Video id <span id='video_id_'></span> is now avaliable <br> Ready to post movie <br> <span id='video_name_'></span></div>
 
-            <form action="{% url 'staff:movie-detail' movie.pk %}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'staff:movie-detail' movie.pk %}" method="POST" enctype="multipart/form-data" id="form-movie_">
                 {% csrf_token %}
+                {{ movie_form.video }}
                 <div class="form-group" id='movie-title'>
                     {{ movie_form.title.label }}
                     {% if movie_form.title.errors %}
@@ -196,7 +197,21 @@
         <div id="video-form">
             <h2 class="text-center">file details</h2>
 
-            <form action="" method="post" enctype="multipart/form-data">
+            {% if not movie.file %}
+                <div class="alert alert-primary text-center" style="margin: 2em;">
+                    Add new video for {{ movie.title}}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'staff:upload' %}" method="post" enctype="multipart/form-data" id='form-video'>
+                {% csrf_token %}
+                {{ video_form.video_type }}
+                <input type='hidden' name='owner' value='{{ movie.pk }}'>
+
+                <div class="alert alert-danger" id='form-video-error'>
+                    An Error occurred!
+                    <div id='video-form-errors'></div>
+                </div>
 
                 <div class="alert alert-info" style="margin: 0 2em 0 2em">
                     Enter in seconds
@@ -237,13 +252,11 @@
                 <hr />
     
                 <div id='video-upload'>
-                    {% if video_form.file.value %}
-                        <a href="{{ movie.file.file.url}}" target="_blank" rel="norel">open current file</a>
-                    {% endif %}
+                    <a href="{{ movie.file.file.url}}" {% if not video_form.file.value %}style='display: none'{% endif %} target="_blank" rel="norel" id='current-video'>open current file</a>
 
                     <div class="form-group">                
                         <label for="movie-video-file">Select file for {{ movie.title }}</label>      
-                        <input type="file" name="video" id="movie-video-file" class="form-control" accept="video/*">
+                        {{ video_form.file }}
     
                         <div id='upload-field'>
                             <div id='progress-bar'>
@@ -251,15 +264,17 @@
                             </div>
                             <div class="div-space"></div>
                             <div id='progress-per'>
-                                <span>0%</span>
+                                <span id='progress-per-num'>0%</span>
                             </div>
                         </div>
+
+                        <div id="upload-field-done"></div>
                     </div>                    
                 </div>
 
                 <hr />
                 <div class="form-group" style="text-align: right;">
-                    <input class="btn btn-outline-info" type="submit" value="upload file for {{ movie.title }}">
+                    <input disabled class="btn btn-outline-info" type="submit" value="upload file for {{ movie.title }}" id="video-submit-button">
                 </div>
             </form>
         </div>
@@ -269,3 +284,8 @@
 
 
 {% endblock content %}
+
+
+{% block script %}
+{{ video_form.media.js }}
+{% endblock script %}
