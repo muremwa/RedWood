@@ -43,7 +43,7 @@ class MovieDetail(PermissionRequiredMixin, View):
             movie_form.save()
             movie.file = video
 
-            add_message(request, message_constants.SUCCESS, 'Successfully changed %s' %movie.title)
+            add_message(request, message_constants.SUCCESS, 'Successfully changed %s' % movie.title)
 
             return render(request, self.template_name, {
                 'movie': movie,
@@ -72,17 +72,21 @@ def upload_video(request):
             elif request.POST.get('video_type') == 'S':
                 owner = get_object_or_404(Episode, pk=owner_pk)
 
-        form = StaffVideoForm(request.POST, request.FILES, instance=owner.file)
+        if owner and owner.file:
+            form = StaffVideoForm(request.POST, request.FILES, instance=owner.file)
+        else:
+            form = StaffVideoForm(request.POST, request.FILES)
 
-        if form.is_valid() and owner:
+        if form.is_valid():
             video = form.save()
 
             response = {
                 'success': True,
                 'video_id': video.pk,
-                'user': str(request.user),
-                'owner': owner.title,
             }
+
+            if video.file:
+                response.update({'video_url': video.file.url})
 
         else:
             response = {
