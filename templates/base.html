@@ -36,7 +36,7 @@
                 <a href="" class="mdl-navigation__link"><img src="{% static 'svg/group.svg' %}" alt="">        profiles</a>
                 <a href="" class="mdl-navigation__link"><img src="{% static 'svg/settings.svg' %}" alt="">     settings</a>
                     {% if user.is_staff %}
-                        <a href="" class="mdl-navigation__link"><img src="{% static 'svg/fix.svg' %}" alt="">     staff page</a>
+                        <a href="{% url 'staff:movie-index' %}" class="mdl-navigation__link"><img src="{% static 'svg/fix.svg' %}" alt="">     staff page</a>
                     {% endif %}
                 {% endif %}
                 <a href="" class="mdl-navigation__link"><img src="{% static 'svg/security.svg' %}" alt="">     privacy</a>
